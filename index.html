@@ -11,11 +11,12 @@
             --primary: #4a90e2;
             --secondary: #50e3c2;
             --accent: #f5a623;
-            --dark: #2c3e50;
-            --light: #ecf0f1;
+            --dark: #1e2a44;
+            --light: #f0f4f8;
             --gray: #7f8c8d;
             --white: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow: 0 10px 30px rgba(0,0,0,0.12);
+            --glass: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -26,70 +27,91 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
+            background: var(--dark);
+            color: var(--light);
             line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, #357abd 100%);
-            color: white;
-            padding: 140px 0 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 120px 0;
+            background: linear-gradient(135deg, rgba(74,144,226,0.15), rgba(80,227,194,0.1));
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1.5s ease-out;
         }
 
         .hero h1 {
-            font-size: 3.8rem;
-            margin-bottom: 15px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 0.95;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
         .hero .tagline {
             font-size: 1.6rem;
-            opacity: 0.95;
-            margin-bottom: 30px;
+            opacity: 0.9;
+            margin-bottom: 40px;
         }
 
-        .hero .contact-bar {
+        .contact-bar {
             display: flex;
             justify-content: center;
-            gap: 2rem;
             flex-wrap: wrap;
-            font-size: 1.1rem;
+            gap: 1.8rem;
+            font-size: 1.15rem;
         }
 
-        .hero .contact-item {
+        .contact-item {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 12px 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.4s ease;
         }
 
-        .hero .contact-item i {
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 10px 20px rgba(74,144,226,0.2);
+        }
+
+        .contact-item i {
+            color: var(--accent);
             font-size: 1.4rem;
         }
 
@@ -100,33 +122,36 @@
 
         h2 {
             text-align: center;
-            font-size: 2.8rem;
-            margin-bottom: 50px;
+            font-size: 3rem;
+            margin-bottom: 60px;
             color: var(--primary);
             position: relative;
         }
 
         h2::after {
             content: '';
-            width: 80px;
+            width: 100px;
             height: 4px;
-            background: var(--accent);
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
             position: absolute;
             bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         /* Cards */
         .card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 35px;
             box-shadow: var(--shadow);
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(50px);
         }
 
         .card.visible {
@@ -135,20 +160,21 @@
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(74,144,226,0.15);
+            transform: translateY(-12px);
+            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(74,144,226,0.18);
         }
 
         .card h3 {
             color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
         }
 
         .card .subtitle {
             color: var(--gray);
             font-size: 1.1rem;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .card ul {
@@ -157,9 +183,9 @@
 
         .card li {
             position: relative;
-            padding-left: 25px;
-            margin-bottom: 12px;
-            color: var(--text-light);
+            padding-left: 28px;
+            margin-bottom: 14px;
+            color: #d0d8e0;
         }
 
         .card li::before {
@@ -169,37 +195,41 @@
             position: absolute;
             left: 0;
             color: var(--accent);
+            font-size: 1.1rem;
         }
 
         /* Skills */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            gap: 25px;
         }
 
         .skill {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 25px;
             text-align: center;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
+            transition: all 0.4s ease;
         }
 
         .skill:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            border-color: var(--accent);
         }
 
         .skill i {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             color: var(--accent);
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .skill-name {
             font-weight: 600;
             color: var(--primary);
+            font-size: 1.2rem;
         }
 
         /* Footer */
@@ -207,18 +237,14 @@
             background: var(--dark);
             color: white;
             text-align: center;
-            padding: 40px 0;
-            margin-top: 60px;
+            padding: 50px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .fade-in {
-            animation: fadeIn 1.5s ease-out forwards;
+        footer p {
+            margin: 0;
+            font-size: 1.1rem;
         }
 
         /* Responsive */
@@ -229,29 +255,32 @@
             .hero h1 {
                 font-size: 2.8rem;
             }
-            .hero .tagline {
-                font-size: 1.3rem;
-            }
             h2 {
-                font-size: 2.2rem;
+                font-size: 2.4rem;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
     <!-- Hero -->
-    <section class="hero fade-in">
+    <section class="hero">
         <div class="container">
             <h1>Monalisha Lenka</h1>
-            <p class="tagline">Operations & HR Professional | Logistics & Supply Chain Specialist</p>
+            <p class="tagline">Operations Executive | Logistics & Supply Chain Specialist | HR & Administration Professional</p>
 
             <div class="contact-bar">
                 <div class="contact-item"><i class="fas fa-phone"></i> +971 52 556 0338</div>
                 <div class="contact-item"><i class="fas fa-envelope"></i> monalishamiliza@gmail.com</div>
                 <div class="contact-item">
                     <i class="fab fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/monalisha-lenka-7026b510a" style="color:white; text-decoration:none;">LinkedIn Profile</a>
+                    <a href="https://www.linkedin.com/in/monalisha-lenka-7026b510a" target="_blank" style="color:var(--white); text-decoration:none;">LinkedIn Profile</a>
                 </div>
             </div>
         </div>
@@ -262,75 +291,75 @@
         <div class="container">
             <h2>Professional Summary</h2>
             <div class="card">
-                <p>A results-oriented professional with over 6 years of hands-on experience in operations, logistics, office administration, HR recruitment, customer service, and reporting.</p>
-                <p>Currently driving e-commerce logistics excellence at Bigship as an Operation Executive, managing multi-courier coordination, delivery optimization, process improvement, and customer satisfaction tracking across India.</p>
-                <p>Proven ability to handle end-to-end operations, cross-functional coordination, performance analysis, and team guidance in fast-paced environments. Passionate about operational efficiency, people management, and delivering exceptional service standards.</p>
+                <p>A results-oriented professional with over 6 years of hands-on experience in operations, e-commerce logistics, office administration, HR recruitment, customer service, and reporting.</p>
+                <p>Currently driving operational excellence at Bigship as an Operation Executive — managing multi-courier coordination, delivery optimization, process improvement, customer feedback analysis, billing reconciliation, and daily reporting to Head Office.</p>
+                <p>Proven expertise in end-to-end logistics, cross-functional team coordination, performance metrics tracking (TAT, RTO, CSAT), and team training. Passionate about delivering high service standards and operational efficiency in fast-paced environments.</p>
             </div>
         </div>
     </section>
 
     <!-- Experience -->
-    <section id="experience" style="background:#f8f9fc;">
+    <section id="experience" style="background:rgba(15,25,50,0.4);">
         <div class="container">
             <h2>Professional Experience</h2>
 
             <div class="card">
                 <div class="experience-header">
                     <h3>Operation Executive</h3>
-                    <span>Dec 2024 – Present (1 year 3 months)</span>
+                    <span>December 2024 – Present (1 year 3 months)</span>
                 </div>
                 <p class="subtitle">Bigship • Bhubaneswar, Odisha, India</p>
                 <ul>
-                    <li>Managing end-to-end e-commerce logistics by coordinating with multiple courier partners across India for timely & cost-effective deliveries</li>
-                    <li>Overseeing post-delivery backend operations, issue resolution, and continuous process optimization</li>
-                    <li>Collecting & analyzing customer feedback to ensure high service quality and satisfaction standards</li>
-                    <li>Planning & scheduling daily pickups/deliveries and assigning optimized routes to logistics team</li>
-                    <li>Preparing billing reports, cash summaries, and providing daily operational updates to Head Office</li>
-                    <li>Negotiating shipping rates with courier partners and ensuring smooth execution of delivery timelines</li>
-                    <li>Tracking shipments, resolving exceptions, and maintaining accurate records of undelivered/returned/damaged consignments</li>
-                    <li>Collaborating with sales, customer service, and warehouse teams for seamless order-to-dispatch flow</li>
-                    <li>Monitoring key metrics (TAT, RTO rate, CSAT) and implementing improvement initiatives</li>
-                    <li>Training logistics team on delivery best practices, route optimization & customer communication</li>
-                    <li>Coordinating with finance for courier billing reconciliation & COD settlements</li>
+                    <li>Managing e-commerce shipping & logistics by coordinating with multiple courier partners across India for timely, cost-effective deliveries</li>
+                    <li>Overseeing post-delivery backend operations, issue resolution & continuous process optimization</li>
+                    <li>Collecting & analyzing customer feedback post-delivery to maintain high service quality & satisfaction standards</li>
+                    <li>Planning & scheduling daily pickups/deliveries, assigning optimized routes & tasks to logistics team</li>
+                    <li>Preparing billing reports, cash received summaries & providing daily operational updates to Head Office</li>
+                    <li>Negotiating shipping rates with courier partners & ensuring smooth execution of delivery timelines</li>
+                    <li>Tracking shipments, resolving exceptions & maintaining accurate records of undelivered/returned/damaged consignments</li>
+                    <li>Collaborating with sales, customer service & warehouse teams for seamless order-to-dispatch alignment</li>
+                    <li>Monitoring key metrics (TAT, RTO rate, CSAT) & implementing improvement initiatives</li>
+                    <li>Training & guiding logistics team on delivery handling, route optimization & customer communication standards</li>
+                    <li>Maintaining coordination with finance for courier billing reconciliation & COD settlements</li>
                 </ul>
             </div>
 
             <div class="card">
                 <div class="experience-header">
                     <h3>Human Resources Recruiter</h3>
-                    <span>Oct 2022 – Nov 2024 (2 years 2 months)</span>
+                    <span>October 2022 – November 2024 (2 years 2 months)</span>
                 </div>
                 <p class="subtitle">Intellect Management Group • Dubai, United Arab Emirates</p>
                 <ul>
-                    <li>Managed full-cycle recruitment: sourcing, screening, interviewing, and onboarding across departments</li>
-                    <li>Partnered with hiring managers to define requirements, craft job descriptions & build recruitment strategies</li>
-                    <li>Sourced talent through job portals, LinkedIn, social media, referrals, and professional networks</li>
+                    <li>Managed full-cycle recruitment: sourcing, screening, interviewing & onboarding across departments</li>
+                    <li>Collaborated with hiring managers to define job requirements, create descriptions & develop recruitment strategies</li>
+                    <li>Sourced talent via job portals, LinkedIn, social media, referrals & professional networks</li>
                     <li>Conducted initial HR screening interviews to evaluate qualifications, experience & cultural fit</li>
-                    <li>Coordinated technical & final interviews, ensuring seamless communication between candidates & teams</li>
+                    <li>Coordinated technical & final interviews, ensuring smooth communication between candidates & hiring teams</li>
                 </ul>
             </div>
 
             <div class="card">
                 <div class="experience-header">
                     <h3>Coordinator</h3>
-                    <span>Oct 2016 – Nov 2018 (2 years 2 months)</span>
+                    <span>October 2016 – November 2018 (2 years 2 months)</span>
                 </div>
                 <p class="subtitle">Bajaj Electricals Ltd • Bhubaneswar, Odisha, India</p>
                 <ul>
-                    <li>Actively engaged with customers both on floor and in office environments</li>
-                    <li>Coordinated with customer & service teams to resolve issues efficiently</li>
-                    <li>Prepared and delivered daily activity reports to management</li>
+                    <li>Actively engaged with customers on floor & in office environments</li>
+                    <li>Coordinated with customer & service teams for efficient issue resolution</li>
+                    <li>Prepared & delivered daily activity reports to management</li>
                 </ul>
             </div>
 
             <div class="card">
                 <div class="experience-header">
                     <h3>Floor Coordinator</h3>
-                    <span>Jun 2013 – Sep 2016 (3 years 4 months)</span>
+                    <span>June 2013 – September 2016 (3 years 4 months)</span>
                 </div>
                 <p class="subtitle">Bajaj Electricals Ltd • Cuttack Area, India</p>
                 <ul>
-                    <li>Handled direct customer interactions on sales floor and in office</li>
+                    <li>Handled direct customer interactions on sales floor & in office</li>
                     <li>Coordinated with service teams for prompt issue resolution</li>
                 </ul>
             </div>
@@ -356,7 +385,7 @@
     </section>
 
     <!-- Skills -->
-    <section id="skills" style="background:#f8f9fc;">
+    <section id="skills" style="background:rgba(15,25,50,0.4);">
         <div class="container">
             <h2>Core Competencies</h2>
             <div class="skills-grid">
@@ -370,7 +399,7 @@
                 </div>
                 <div class="skill">
                     <i class="fas fa-chart-bar"></i>
-                    <p class="skill-name">Performance Metrics Analysis (TAT, RTO, CSAT)</p>
+                    <p class="skill-name">Performance Metrics Analysis</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-file-invoice-dollar"></i>
@@ -378,11 +407,11 @@
                 </div>
                 <div class="skill">
                     <i class="fas fa-user-tie"></i>
-                    <p class="skill-name">End-to-End Recruitment</p>
+                    <p class="skill-name">Full-Cycle Recruitment</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-headset"></i>
-                    <p class="skill-name">Customer Service & Feedback Management</p>
+                    <p class="skill-name">Customer Service Excellence</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-handshake"></i>
@@ -399,13 +428,42 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>© 2026 Monalisha Lenka • Built with passion & precision</p>
+            <p>© 2026 Monalisha Lenka • Designed with precision & passion</p>
         </div>
     </footer>
 
-    <!-- Scroll Reveal Script -->
+    <!-- Particles.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        const cards = document.querySelectorAll('.card, .skill');
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#4a90e2", "#50e3c2", "#f5a623", "#ffffff"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 } },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.08, "width": 1 },
+                "move": { "enable": true, "speed": 1.2, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } },
+                    "push": { "particles_nb": 4 }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+
+    <!-- Scroll Reveal -->
+    <script>
+        const elements = document.querySelectorAll('.card, .skill');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -414,7 +472,7 @@
             });
         }, { threshold: 0.15 });
 
-        cards.forEach(card => observer.observe(card));
+        elements.forEach(el => observer.observe(el));
     </script>
 
 </body>
