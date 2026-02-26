@@ -1,39 +1,38 @@
-// Scroll Progress
-window.onscroll=function(){
-  let winScroll=document.body.scrollTop||document.documentElement.scrollTop;
-  let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-  document.getElementById("progress").style.width=(winScroll/height)*100+"%";
-};
+// Scroll progress bar
+window.addEventListener("scroll", function () {
+  let scrollTop = document.documentElement.scrollTop;
+  let scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById("progress-bar").style.width = progress + "%";
+});
 
-// Typing Animation
-const texts=["Operations Specialist","HR Strategist","Logistics Optimizer"];
-let count=0, index=0, currentText="", letter="";
+// Typing animation
+const roles = ["Operations Specialist", "HR Strategist", "Logistics Optimizer"];
+let roleIndex = 0;
+let charIndex = 0;
+let currentRole = "";
+let isDeleting = false;
 
-(function type(){
-  if(count===texts.length){count=0;}
-  currentText=texts[count];
-  letter=currentText.slice(0,++index);
-  document.getElementById("typing").textContent=letter;
-  if(letter.length===currentText.length){
-    count++; index=0;
-    setTimeout(type,1500);
+function typeEffect() {
+  currentRole = roles[roleIndex];
+  let displayText;
+
+  if (isDeleting) {
+    displayText = currentRole.substring(0, charIndex--);
   } else {
-    setTimeout(type,100);
+    displayText = currentRole.substring(0, charIndex++);
   }
-})();
 
-// EmailJS
-(function(){
-  emailjs.init("YOUR_PUBLIC_KEY");
-})();
+  document.getElementById("typing").textContent = displayText;
 
-document.getElementById("contact-form").addEventListener("submit",function(e){
-  e.preventDefault();
-  emailjs.sendForm("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",this)
-  .then(()=>alert("Message Sent Successfully!"));
-});
+  if (!isDeleting && charIndex === currentRole.length) {
+    setTimeout(() => isDeleting = true, 1000);
+  } else if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    roleIndex = (roleIndex + 1) % roles.length;
+  }
 
-// CV Download Tracking
-document.getElementById("downloadBtn").addEventListener("click",()=>{
-  console.log("CV Downloaded");
-});
+  setTimeout(typeEffect, isDeleting ? 50 : 100);
+}
+
+document.addEventListener("DOMContentLoaded", typeEffect);
