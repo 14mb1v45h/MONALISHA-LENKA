@@ -1,38 +1,43 @@
-// Scroll progress bar
-window.addEventListener("scroll", function () {
-  let scrollTop = document.documentElement.scrollTop;
-  let scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  let progress = (scrollTop / scrollHeight) * 100;
-  document.getElementById("progress-bar").style.width = progress + "%";
+// Scroll progress
+window.addEventListener("scroll",()=>{
+  let scrollTop=document.documentElement.scrollTop;
+  let scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById("progress-bar").style.width=(scrollTop/scrollHeight)*100+"%";
 });
 
-// Typing animation
-const roles = ["Operations Specialist", "HR Strategist", "Logistics Optimizer"];
-let roleIndex = 0;
-let charIndex = 0;
-let currentRole = "";
-let isDeleting = false;
+// Typing effect
+const roles=["Operations Specialist","HR Strategist","Logistics Optimizer"];
+let roleIndex=0,charIndex=0,isDeleting=false;
 
-function typeEffect() {
-  currentRole = roles[roleIndex];
-  let displayText;
+function type(){
+  const current=roles[roleIndex];
+  const element=document.getElementById("typing");
 
-  if (isDeleting) {
-    displayText = currentRole.substring(0, charIndex--);
-  } else {
-    displayText = currentRole.substring(0, charIndex++);
+  if(isDeleting){
+    element.textContent=current.substring(0,charIndex--);
+  }else{
+    element.textContent=current.substring(0,charIndex++);
   }
 
-  document.getElementById("typing").textContent = displayText;
-
-  if (!isDeleting && charIndex === currentRole.length) {
-    setTimeout(() => isDeleting = true, 1000);
-  } else if (isDeleting && charIndex === 0) {
-    isDeleting = false;
-    roleIndex = (roleIndex + 1) % roles.length;
+  if(!isDeleting && charIndex===current.length){
+    setTimeout(()=>isDeleting=true,1000);
+  }else if(isDeleting && charIndex===0){
+    isDeleting=false;
+    roleIndex=(roleIndex+1)%roles.length;
   }
 
-  setTimeout(typeEffect, isDeleting ? 50 : 100);
+  setTimeout(type,isDeleting?60:100);
 }
+document.addEventListener("DOMContentLoaded",type);
 
-document.addEventListener("DOMContentLoaded", typeEffect);
+// EmailJS
+(function(){
+  emailjs.init("YOUR_PUBLIC_KEY");
+})();
+
+document.getElementById("contact-form").addEventListener("submit",function(e){
+  e.preventDefault();
+  emailjs.sendForm("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",this)
+  .then(()=>alert("Message Sent Successfully!"))
+  .catch(()=>alert("Error sending message"));
+});
